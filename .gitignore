@@ -34,6 +34,7 @@ bower_components/
 
 # dotenv environment variable files
 .env
+.env.local
 .env.test
 .env.production
 .env.development.local
