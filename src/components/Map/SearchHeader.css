@@ -1,0 +1,26 @@
+.SearchBar{
+    background-color: navy;
+    display: flex;
+    justify-content: center;
+    height: 40px;
+    width: 100%;
+    border: 10px;
+}
+
+.InputBar{
+    background-color: rgb(20, 206, 223);
+    /* display: flex;
+    justify-content: center; */
+    
+    border: 2px solid black;
+    border-radius: 5px;
+    /* height: fit-content; */
+    width: 200px;
+}
+
+.SearchButton{
+    background-color: aqua;
+    border: 2px solid black;
+    border-radius: 5px;
+    margin-left: 10px;
+}

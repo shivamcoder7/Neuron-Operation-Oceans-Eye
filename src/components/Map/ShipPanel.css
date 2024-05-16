@@ -1,0 +1,22 @@
+/* styles.css */
+
+.panel-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 300px; /* Adjust width as needed */
+    height: 100vh;
+    background-color: #fff;
+    box-shadow: -5px 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    overflow-y: auto;
+  }
+  
+  .ship-panel {
+    padding: 20px;
+  }
+  
+  .ship-panel h3 {
+    margin-top: 0;
+  }
+  
