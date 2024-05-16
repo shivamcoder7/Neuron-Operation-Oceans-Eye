@@ -1,5 +1,4 @@
-
-import React from 'react';
+import React from "react";
 
 const ShipPanel = ({ ships }) => {
   console.log(ships);
@@ -8,7 +7,7 @@ const ShipPanel = ({ ships }) => {
       <h3>Ships Visiting the Port</h3>
       <ul>
         {ships.map((ship) => (
-          <li key={ship.id}>{ship.name}</li>
+          <li key={ship.id}>{ship}</li>
         ))}
       </ul>
     </div>

@@ -97,16 +97,6 @@ const Map = () => {
         },
       });
 
-      // newMap.addLayer({
-      //   id: "ships",
-      //   type: "symbol",
-      //   source: "ships",
-      //   layout: {
-      //     "icon-image": "marker-15", // Use the built-in marker icon
-      //     "icon-size": 1.0, // Adjust the size as needed
-      //     "icon-allow-overlap": true // Allow markers to overlap
-      //   }
-      // });
 
       newMap.loadImage(
         `${process.env.PUBLIC_URL}/images/shipimg.png`,
@@ -115,18 +105,18 @@ const Map = () => {
           newMap.addImage("ship-marker", image);
           newMap.addLayer({
             id: "ships",
-            type: "symbol", // Change the layer type to "symbol"
+            type: "symbol", 
             source: "ships",
             layout: {
-              "icon-image": "ship-marker", // Use the custom ship icon as the marker
-              "icon-size": 0.025, // Adjust the size of the marker as needed
-              "icon-allow-overlap": true, // Allow the markers to overlap
+              "icon-image": "ship-marker", 
+              "icon-size": 0.025, 
+              "icon-allow-overlap": true, 
             },
           });
         }
       );
 
-      // Add port markers
+      // Adding port markers from parsed CSV data
       newMap.addSource("ports", {
         type: "geojson",
         data: {
@@ -147,17 +137,6 @@ const Map = () => {
         },
       });
 
-      // newMap.addLayer({
-      //   id: "ports",
-      //   type: "symbol",
-      //   source: "ports",
-      //   layout: {
-      //     "icon-image": "harbor-15", // Using Mapbox's built-in marker icon "harbor-15"
-      //     "icon-size": 1.5, // Adjust the size of the marker as needed
-      //     "icon-allow-overlap": true // Allow the markers to overlap
-      //   }
-      // });
-
       newMap.loadImage(
         `${process.env.PUBLIC_URL}/images/port-icon.png`,
         (error, image) => {
@@ -165,23 +144,23 @@ const Map = () => {
           newMap.addImage("port-marker", image);
           newMap.addLayer({
             id: "ports",
-            type: "symbol", // Change the layer type to "symbol"
+            type: "symbol", 
             source: "ports",
             layout: {
-              "icon-image": "port-marker", // Use the custom port icon as the marker
-              "icon-size": 0.02, // Adjust the size of the marker as needed
-              "icon-allow-overlap": true, // Allow the markers to overlap
+              "icon-image": "port-marker", 
+              "icon-size": 0.02, 
+              "icon-allow-overlap": true, 
             },
           });
         }
       );
 
-      // Add mouseover/mouseout event handlers for ship markers
+      // Adding the mouseover/mouseout pop-up event handlers for ship markers
       newMap.on("mouseenter", "ships", (e) => {
         const shipName = e.features[0].properties.title;
         popup
           .setLngLat(e.lngLat)
-          .setHTML(`<div>${shipName}</div>`)
+          .setHTML(`<div style={{color: 'blue'}}>${shipName}</div>`)
           .addTo(newMap);
       });
 
@@ -189,7 +168,7 @@ const Map = () => {
         popup.remove();
       });
 
-      // Add mouseover/mouseout event handlers for port markers
+      // Adding mouseover/mouseout name pop-up  event handlers for port markers
       newMap.on("mouseenter", "ports", (e) => {
         const portName = e.features[0].properties.title;
         popup
@@ -348,7 +327,7 @@ const Map = () => {
       <div ref={mapContainerRef} style={{ height: "100vh" }} />
       {selectedPort && (
         <div className="panel-container">
-          <ShipPanel ships={["Sulina, Romania"]} />
+          <ShipPanel ships={["ship_9", "ship_10", "ship_60","yet to build the ships visiting feature"]} />
         </div>
       )}
     </div>

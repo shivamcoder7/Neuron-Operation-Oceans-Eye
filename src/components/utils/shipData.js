@@ -79,12 +79,14 @@ export const parseCSV = (shipData, selectedPort) => {
       return new Date(ship.ec_timestamp) >= sevenDaysAgo;
     };
 
+    // console.log(Object);
+    // console.log("object");
     Object.values(groupedData).forEach((shipData) => {
       shipData.forEach((visit) => {
         visit.portVisited =
-          isShipWithinRadius(visit, selectedPort) &&
-          isShipWithinLast7Days(visit);
+          isShipWithinRadius(visit, selectedPort);
       });
     });
+    return groupedData;
   });
 };
