@@ -348,7 +348,7 @@ const Map = () => {
       <div ref={mapContainerRef} style={{ height: "100vh" }} />
       {selectedPort && (
         <div className="panel-container">
-          <ShipPanel ships={"Sulina, Romania"} />
+          <ShipPanel ships={["Sulina, Romania"]} />
         </div>
       )}
     </div>

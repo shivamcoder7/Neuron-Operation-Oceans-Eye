@@ -2,6 +2,7 @@
 import React from 'react';
 
 const ShipPanel = ({ ships }) => {
+  console.log(ships);
   return (
     <div className="ship-panel">
       <h3>Ships Visiting the Port</h3>
