@@ -1,9 +1,10 @@
 import React, { useRef, useEffect, useState, useCallback } from "react";
 import mapboxgl from "mapbox-gl";
+import { parseShipCSV } from "../utils/shipData";
+import { parsePortsCSV } from "../utils/portsData";
 import "mapbox-gl/dist/mapbox-gl.css";
 import "./ShipPanel.css";
-import { parseCSV } from "../utils/shipData";
-import { parsePortsCSV } from "../utils/portsData";
+
 import shipData from "../geoData/geoShipsData7Days.csv";
 import SearchBar from "./SearchHeader";
 import ShipPanel from "./ShipPanel";
@@ -24,7 +25,7 @@ const Map = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const groupedData = await parseCSV(shipData);
+      const groupedData = await parseShipCSV(shipData);
       const portLocations = await parsePortsCSV();
       setParsedData(groupedData);
       setPortLocations(portLocations);
@@ -41,7 +42,7 @@ const Map = () => {
         const lastTwoDays = shipData.slice(-3);
         const remainingDays = shipData.slice(0, -3);
         setSelectedShipData({ latestLocation, lastTwoDays, remainingDays });
-        setErrorMessage(""); // Clear the error message
+        setErrorMessage(""); // Clear the error message if ship exist
       } else {
         setSelectedShipData(null);
         setErrorMessage(
@@ -53,28 +54,26 @@ const Map = () => {
   );
 
   const initializeMap = () => {
-    // if (map) {
-    //   // Remove existing map instance
-    //   map.remove();
-    // }
 
+    //creating the map object with custom configuration
     const newMap = new mapboxgl.Map({
       container: mapContainerRef.current,
       style: "mapbox://styles/mapbox/streets-v12",
       center: [-80.1918, 25.7617], //Greater Miami region
-      zoom: 5,
+      zoom: 6,
     });
 
     console.log(newMap);
 
+    //creating the popup object
     const popup = new mapboxgl.Popup({
       closeButton: false,
       closeOnClick: false,
     });
 
     newMap.on("load", function () {
-      // Add ship marker
       console.log("map loaded");
+      //marking the ship latest location
       newMap.addSource("ships", {
         type: "geojson",
         data: {
@@ -97,7 +96,7 @@ const Map = () => {
         },
       });
 
-
+      //setting the ship png image to show the ship latest position
       newMap.loadImage(
         `${process.env.PUBLIC_URL}/images/shipimg.png`,
         (error, image) => {
@@ -105,18 +104,18 @@ const Map = () => {
           newMap.addImage("ship-marker", image);
           newMap.addLayer({
             id: "ships",
-            type: "symbol", 
+            type: "symbol",
             source: "ships",
             layout: {
-              "icon-image": "ship-marker", 
-              "icon-size": 0.025, 
-              "icon-allow-overlap": true, 
+              "icon-image": "ship-marker",
+              "icon-size": 0.025,
+              "icon-allow-overlap": true,
             },
           });
         }
       );
 
-      // Adding port markers from parsed CSV data
+      // marking the ports location
       newMap.addSource("ports", {
         type: "geojson",
         data: {
@@ -137,6 +136,7 @@ const Map = () => {
         },
       });
 
+      //setting the port png image to show the ports position
       newMap.loadImage(
         `${process.env.PUBLIC_URL}/images/port-icon.png`,
         (error, image) => {
@@ -144,18 +144,18 @@ const Map = () => {
           newMap.addImage("port-marker", image);
           newMap.addLayer({
             id: "ports",
-            type: "symbol", 
+            type: "symbol",
             source: "ports",
             layout: {
-              "icon-image": "port-marker", 
-              "icon-size": 0.02, 
-              "icon-allow-overlap": true, 
+              "icon-image": "port-marker",
+              "icon-size": 0.02,
+              "icon-allow-overlap": true,
             },
           });
         }
       );
 
-      // Adding the mouseover/mouseout pop-up event handlers for ship markers
+      // Adding the hover pop-up event handlers for ship markers
       newMap.on("mouseenter", "ships", (e) => {
         const shipName = e.features[0].properties.title;
         popup
@@ -168,7 +168,7 @@ const Map = () => {
         popup.remove();
       });
 
-      // Adding mouseover/mouseout name pop-up  event handlers for port markers
+      // Adding hover name pop-up event handlers for port markers
       newMap.on("mouseenter", "ports", (e) => {
         const portName = e.features[0].properties.title;
         popup
@@ -184,20 +184,20 @@ const Map = () => {
 
     const handlePortMarkerClick = (portName) => {
       setSelectedPort(portName);
-      parseCSV(shipData, portName)
+      parseShipCSV(shipData, portName)
         .then((data) => {
-          // Handle the returned ship data
+          console.log(data);
         })
         .catch((error) => {
-          // Handle errors
+          console.log(`handle port marker click error: ${error}`);
         });
     };
 
-    // Inside the Map component
+
 
     newMap.on("click", "ports", (e) => {
       const portName = e.features[0].properties.title;
-      // Call a function to handle port marker click and pass portName
+      // here calling a function to handle port marker click and pass portName
       console.log(portName);
       handlePortMarkerClick(portName);
     });
@@ -221,7 +221,7 @@ const Map = () => {
         map.removeSource("selectedShipSource");
       }
 
-      // Add new ship line layer
+      // Adding a new ship line layer
       map.addSource("selectedShipSource", {
         type: "geojson",
         data: {
@@ -270,13 +270,13 @@ const Map = () => {
           "line-dasharray": [
             "case",
             ["==", ["get", "line-index"], 0],
-            ["literal", [4, 4]], // Use the 'literal' expression for the dash pattern
-            ["literal", []], // Use the 'literal' expression for an empty array (solid line)
+            ["literal", [4, 4]], // using the 'literal' expression for the dash pattern
+            ["literal", []], // here using the 'literal' expression for an empty array (solid line)
           ],
         },
       });
 
-      // Fly to the latest location
+      // centering the latest selected location
       map.flyTo({
         center: [
           latestLocation.location_longitude,
@@ -327,7 +327,14 @@ const Map = () => {
       <div ref={mapContainerRef} style={{ height: "100vh" }} />
       {selectedPort && (
         <div className="panel-container">
-          <ShipPanel ships={["ship_9", "ship_10", "ship_60","yet to build the ships visiting feature"]} />
+          <ShipPanel
+            ships={[
+              "ship_9",
+              "ship_10",
+              "ship_60",
+              "yet to build this ships visiting feature",
+            ]}
+          />
         </div>
       )}
     </div>

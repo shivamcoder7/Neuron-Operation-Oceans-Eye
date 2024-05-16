@@ -1,10 +1,9 @@
 import * as Papa from "papaparse";
 
-export const parseCSV = (shipData, selectedPort) => {
+export const parseShipCSV = (shipData, selectedPort) => {
   const sevenDaysAgo = new Date();
   sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
 
-  console.log("Hello world");
   return new Promise((resolve, reject) => {
     const groupedData = {};
 
@@ -26,7 +25,7 @@ export const parseCSV = (shipData, selectedPort) => {
           shipData.sort((a, b) => a.ec_timestamp - b.ec_timestamp);
         });
 
-        // console.log("bye world");
+        
         resolve(groupedData);
       },
       error: (error) => {
@@ -39,13 +38,13 @@ export const parseCSV = (shipData, selectedPort) => {
       // Radius of the Earth in kilometers
       const R = 6371;
 
-      // Convert latitude and longitude from degrees to radians
+      // Converts latitude and longitude from degrees to radians
       const radLat1 = (Math.PI / 180) * lat1;
       const radLon1 = (Math.PI / 180) * lon1;
       const radLat2 = (Math.PI / 180) * lat2;
       const radLon2 = (Math.PI / 180) * lon2;
 
-      // Calculate differences between latitude and longitude of two points
+      // Calculate's the differences between latitude and longitude of two points
       const dLat = radLat2 - radLat1;
       const dLon = radLon2 - radLon1;
 
@@ -65,7 +64,7 @@ export const parseCSV = (shipData, selectedPort) => {
     };
 
     const isShipWithinRadius = (ship, port) => {
-      // Calculate distance between ship and port using Haversine formula
+      // Calculate's the distance between ship and port using Haversine formula
       const distance = haversineDistance(
         ship.latitude,
         ship.longitude,
@@ -79,8 +78,6 @@ export const parseCSV = (shipData, selectedPort) => {
       return new Date(ship.ec_timestamp) >= sevenDaysAgo;
     };
 
-    // console.log(Object);
-    // console.log("object");
     Object.values(groupedData).forEach((shipData) => {
       shipData.forEach((visit) => {
         visit.portVisited =

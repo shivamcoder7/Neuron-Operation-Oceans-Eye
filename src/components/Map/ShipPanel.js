@@ -1,4 +1,5 @@
 import React from "react";
+import "./ShipPanel.css";
 
 const ShipPanel = ({ ships }) => {
   console.log(ships);
