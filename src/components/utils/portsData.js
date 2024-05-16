@@ -1,8 +1,8 @@
-import * as Papa from 'papaparse';
+import * as Papa from "papaparse";
 
 export const parsePortsCSV = () => {
   return new Promise((resolve, reject) => {
-    Papa.parse(require('./../geoData/portLocationData.csv'), {
+    Papa.parse(require("./../geoData/portLocationData.csv"), {
       header: true,
       download: true,
       complete: (results) => {

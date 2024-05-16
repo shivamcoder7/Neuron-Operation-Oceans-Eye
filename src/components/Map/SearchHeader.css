@@ -1,26 +1,59 @@
-.SearchBar{
+.SearchBar {
     background-color: navy;
     display: flex;
+    align-items: center;
     justify-content: center;
-    height: 40px;
+    gap: 10px; 
+    height: 60px; 
     width: 100%;
-    border: 10px;
+    padding: 0 20px; 
+    border: 10px solid transparent;
+    box-sizing: border-box; 
 }
 
-.InputBar{
+.InputBar {
     background-color: rgb(20, 206, 223);
-    /* display: flex;
-    justify-content: center; */
-    
     border: 2px solid black;
     border-radius: 5px;
-    /* height: fit-content; */
-    width: 200px;
+    padding: 5px 10px; 
+    width: 250px; 
+    font-size: 16px; 
+    outline: none; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); 
 }
 
-.SearchButton{
+.SearchButton {
     background-color: aqua;
     border: 2px solid black;
     border-radius: 5px;
+    padding: 5px 15px; 
+    margin-left: 2px;
+    cursor: pointer; 
+    font-size: 16px; 
+    transition: background-color 0.3s, transform 0.3s; 
+}
+
+.SearchButton:hover {
+    background-color: lightseagreen; 
+    transform: scale(1.05); 
+}
+
+.aeroImage1 {
+    height: 40px;
+    width: auto; 
+    margin-right: 10px;
+}
+
+.aeroImage2 {
+    height: 40px;
+    width: auto; 
     margin-left: 10px;
+}
+
+.mission {
+    color: white;
+    margin: 0;
+    font-size: 18px;
+    font-weight: bold;
+    margin-right: auto;
 }

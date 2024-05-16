@@ -54,7 +54,6 @@ const Map = () => {
   );
 
   const initializeMap = () => {
-
     //creating the map object with custom configuration
     const newMap = new mapboxgl.Map({
       container: mapContainerRef.current,
@@ -192,8 +191,6 @@ const Map = () => {
           console.log(`handle port marker click error: ${error}`);
         });
     };
-
-
 
     newMap.on("click", "ports", (e) => {
       const portName = e.features[0].properties.title;
@@ -334,6 +331,7 @@ const Map = () => {
               "ship_60",
               "yet to build this ships visiting feature",
             ]}
+            port={selectedPort}
           />
         </div>
       )}

@@ -25,7 +25,6 @@ export const parseShipCSV = (shipData, selectedPort) => {
           shipData.sort((a, b) => a.ec_timestamp - b.ec_timestamp);
         });
 
-        
         resolve(groupedData);
       },
       error: (error) => {
@@ -80,8 +79,7 @@ export const parseShipCSV = (shipData, selectedPort) => {
 
     Object.values(groupedData).forEach((shipData) => {
       shipData.forEach((visit) => {
-        visit.portVisited =
-          isShipWithinRadius(visit, selectedPort);
+        visit.portVisited = isShipWithinRadius(visit, selectedPort);
       });
     });
     return groupedData;
