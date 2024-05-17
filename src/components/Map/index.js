@@ -267,8 +267,8 @@ const Map = () => {
           "line-dasharray": [
             "case",
             ["==", ["get", "line-index"], 0],
-            ["literal", [4, 4]], // using the 'literal' expression for the dash pattern
-            ["literal", []], // here using the 'literal' expression for an empty array (solid line)
+            ["literal", [4, 4]], 
+            ["literal", []], 
           ],
         },
       });

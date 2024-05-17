@@ -70,7 +70,7 @@ export const parseShipCSV = (shipData, selectedPort) => {
         port.latitude,
         port.longitude
       );
-      return distance <= 1000;
+      return distance <= 100;
     };
 
     const isShipWithinLast7Days = (ship) => {
